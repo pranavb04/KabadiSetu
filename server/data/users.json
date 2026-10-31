@@ -1,0 +1,46 @@
+[
+  {
+    "id": "COL-1001",
+    "email": "collector@kabadisetu.in",
+    "password_hash": "$2b$10$2CoxY.QWblHWd9x77bKVPeap3Peul.Xh9mwgTQM7Rpw9upKV5p.8y",
+    "role": "collector",
+    "full_name": "Ramesh Kumar (Informal Scrap Collector)",
+    "phone": "+91 98200 12345",
+    "cpcb_registration_no": null,
+    "is_verified": true,
+    "created_at": "2026-10-31T00:22:37.606Z"
+  },
+  {
+    "id": "REC-2001",
+    "email": "recycler@kabadisetu.in",
+    "password_hash": "$2b$10$2CoxY.QWblHWd9x77bKVPegeXuIlZhYET4SlhdvBXAhtPd8VC87Le",
+    "role": "recycler",
+    "full_name": "EcoRecycle Solutions India Pvt Ltd",
+    "phone": "+91 98111 67890",
+    "cpcb_registration_no": "CPCB/E-WASTE/REG-2026-9011",
+    "is_verified": true,
+    "created_at": "2026-10-31T00:22:37.684Z"
+  },
+  {
+    "id": "COL-4569",
+    "email": "kabadi_ramesh_1793406191159@delhi.in",
+    "password_hash": "$2b$10$2zexQIwsp0KA98GcsJGHDeaWuQYB4JMMIgRut1lW9evyfc2wdfGpC",
+    "role": "collector",
+    "full_name": "Ramesh Scrap Dealer",
+    "phone": "+91 98999 11223",
+    "cpcb_registration_no": null,
+    "is_verified": false,
+    "created_at": "2026-10-31T00:23:11.240Z"
+  },
+  {
+    "id": "COL-9130",
+    "email": "bahetypranav@gmail.com",
+    "password_hash": "$2b$10$1NQfS.ts/i40Weje9PC2duKzDKpMsVWDdR8gcu87Wu03kOOo8dpVe",
+    "role": "collector",
+    "full_name": "Pranav",
+    "phone": "9876543210",
+    "cpcb_registration_no": null,
+    "is_verified": false,
+    "created_at": "2026-10-31T00:25:06.498Z"
+  }
+]
