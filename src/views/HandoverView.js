@@ -80,11 +80,11 @@ export function renderHandoverView(state, targetLotId) {
             </div>
           </div>
 
-          <div style="display:flex; gap:12px; margin-top:20px;">
-            <button class="neu-btn" style="flex:1;" onclick="window.print()">
-              ${createLucideIcon('printer', { size: 16 })} ${isHi ? 'रसीद प्रिंट करें' : 'Print Physical Receipt'}
+          <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+            <button class="neu-btn" style="flex:1; min-width:140px;" onclick="window.print()">
+              ${createLucideIcon('printer', { size: 16 })} ${isHi ? 'रसीद प्रिंट करें' : 'Print Receipt'}
             </button>
-            <button class="neu-btn" style="flex:1; background:var(--block-emerald); color:#fff;" onclick="window.appState.verifyHandover('${lot.id}')">
+            <button class="neu-btn" style="flex:1; min-width:160px; background:var(--block-emerald); color:#fff;" onclick="window.appState.verifyHandover('${lot.id}')">
               ${createLucideIcon('qr-code', { size: 16, color: '#ffffff' })} ${isHi ? 'स्कैन व पिकअप पुष्टि' : 'Scan & Confirm Pickup'}
             </button>
           </div>

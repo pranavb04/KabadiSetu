@@ -96,8 +96,17 @@ class App {
       // Handover & Modal
       selectedHandoverLotId: 'LOT-2026-0891',
       activeModal: null,
-      targetBidLotId: null
+      targetBidLotId: null,
+
+      // Mobile Navigation & Responsive Drawer State
+      isMobileNavOpen: false,
+
+      // Entry Logo Splash Animation State
+      showSplash: !sessionStorage.getItem('kabadi_splash_seen'),
+      isSplashDismissing: false
     };
+
+    this.splashTimer = null;
 
     // Attach app state to window for event access
     window.appState = this;
@@ -107,6 +116,11 @@ class App {
   async init() {
     document.documentElement.setAttribute('data-theme', this.state.currentTheme);
     
+    // Start splash timer if splash screen is active
+    if (this.state.showSplash) {
+      this.startSplashTimer();
+    }
+
     // Check and restore active Supabase / JWT authenticated session
     const activeSession = getActiveSession();
     if (activeSession && activeSession.user) {
@@ -196,6 +210,103 @@ class App {
   setLanguage(lang) {
     this.state.currentLang = lang;
     this.render();
+  }
+
+  // Mobile Drawer Navigation Controls
+  toggleMobileNav() {
+    this.state.isMobileNavOpen = !this.state.isMobileNavOpen;
+    this.render();
+  }
+
+  closeMobileNav() {
+    if (this.state.isMobileNavOpen) {
+      this.state.isMobileNavOpen = false;
+      this.render();
+    }
+  }
+
+  // Entry Logo Splash Screen Lifecycle & Replay
+  playSplashAnimation() {
+    this.state.showSplash = true;
+    this.state.isSplashDismissing = false;
+    this.render();
+    this.startSplashTimer();
+  }
+
+  startSplashTimer() {
+    if (this.splashTimer) clearTimeout(this.splashTimer);
+    this.splashTimer = setTimeout(() => {
+      this.dismissSplash();
+    }, 2400);
+  }
+
+  dismissSplash() {
+    if (this.splashTimer) {
+      clearTimeout(this.splashTimer);
+      this.splashTimer = null;
+    }
+    
+    const splashEl = document.getElementById('entry-splash-screen');
+    if (splashEl && !this.state.isSplashDismissing) {
+      this.state.isSplashDismissing = true;
+      splashEl.classList.add('splash-dismissing');
+      setTimeout(() => {
+        this.state.showSplash = false;
+        this.state.isSplashDismissing = false;
+        sessionStorage.setItem('kabadi_splash_seen', '1');
+        if (splashEl && splashEl.parentNode) {
+          splashEl.parentNode.removeChild(splashEl);
+        }
+      }, 500);
+    } else {
+      this.state.showSplash = false;
+      this.state.isSplashDismissing = false;
+      sessionStorage.setItem('kabadi_splash_seen', '1');
+    }
+  }
+
+  renderSplashOverlay() {
+    if (!this.state.showSplash) return '';
+    return `
+      <div id="entry-splash-screen" class="entry-splash-screen" onclick="window.appState.dismissSplash()">
+        <div class="splash-backdrop-fx"></div>
+        <div class="splash-card neu-box" onclick="event.stopPropagation()">
+          <!-- Ambient Orbital Halo Rings & Animated Logo -->
+          <div class="splash-halo-wrapper">
+            <div class="splash-orbit-ring ring-1"></div>
+            <div class="splash-orbit-ring ring-2"></div>
+            <div class="splash-logo-container">
+              <img src="/logo.png" alt="KABADISETU" class="splash-logo-img" />
+            </div>
+          </div>
+
+          <!-- Animated Brand Typography -->
+          <div class="splash-text-container">
+            <div class="splash-hindi-title">कबाड़ी सेतु</div>
+            <h1 class="splash-english-title">KABADISETU</h1>
+            <p class="splash-tagline">Informal Scrap Collectors <span class="splash-arrow">⮀</span> CPCB Formal Recyclers</p>
+          </div>
+
+          <!-- Tech Protocol Badge -->
+          <div class="splash-protocol-badge">
+            <span class="protocol-dot"></span>
+            <span>AI Material Diagnostic • CPCB E-Waste Rules 2022 • Instant Escrow</span>
+          </div>
+
+          <!-- Animated Loading Progress Bar -->
+          <div class="splash-loader-bar-track">
+            <div class="splash-loader-bar-fill"></div>
+          </div>
+          <div class="splash-status-text">Connecting Informal Pickers to Circular Value Chains...</div>
+
+          <!-- Skip / Enter Platform Action Button -->
+          <button class="neu-btn splash-enter-btn" onclick="window.appState.dismissSplash()">
+            <span>Enter Platform</span>
+            <span class="splash-enter-arrow">→</span>
+          </button>
+        </div>
+      </div>
+    `;
   }
 
   // Authentication & Session Management
@@ -377,6 +488,7 @@ class App {
       this.state.selectedHandoverLotId = param;
     }
 
+    this.state.isMobileNavOpen = false;
     this.state.currentView = viewId;
     this.render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -773,6 +885,7 @@ class App {
           ${viewHtml}
         </main>
         ${this.state.isPrivacyModalOpen ? renderPrivacyPolicyModal(this.state) : ''}
+        ${this.renderSplashOverlay()}
       `;
     } else {
       // Authenticated portal with Sidebar and Header
@@ -784,6 +897,7 @@ class App {
         </main>
         ${this.renderModal()}
         ${this.state.isPrivacyModalOpen ? renderPrivacyPolicyModal(this.state) : ''}
+        ${this.renderSplashOverlay()}
       `;
     }
 

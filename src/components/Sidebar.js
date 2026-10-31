@@ -39,18 +39,34 @@ export function renderSidebar(state) {
   ];
 
   const navItems = role === 'collector' ? collectorNav : recyclerNav;
+  const isOpen = state.isMobileNavOpen;
 
   return `
-    <aside class="app-sidebar glass-panel">
-      <!-- Brand Logo Header -->
-      <div class="sidebar-brand" style="cursor:pointer;" onclick="window.appState.navigateTo('landing')" title="Go to Home / Landing">
-        <div class="brand-icon-box" style="border: 2px solid var(--block-mint);">
-          <img src="/logo.png" alt="KABADISETU" class="brand-logo-img" />
+    <!-- Mobile Backdrop -->
+    ${isOpen ? `<div class="mobile-nav-backdrop" onclick="window.appState.closeMobileNav()"></div>` : ''}
+
+    <aside class="app-sidebar glass-panel ${isOpen ? 'mobile-open' : ''}">
+      <!-- Brand Logo Header & Mobile Close -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <div class="sidebar-brand" style="cursor:pointer;" onclick="window.appState.closeMobileNav(); window.appState.navigateTo('landing')" title="Go to Home / Landing">
+          <div class="brand-icon-box" style="border: 2px solid var(--block-mint);">
+            <img src="/logo.png" alt="KABADISETU" class="brand-logo-img" />
+          </div>
+          <div class="brand-text-block">
+            <h2 class="brand-title">${l.appName}</h2>
+            <span class="brand-subtitle">${l.appSubtitle}</span>
+          </div>
         </div>
-        <div class="brand-text-block">
-          <h2 class="brand-title">${l.appName}</h2>
-          <span class="brand-subtitle">${l.appSubtitle}</span>
-        </div>
+
+        <!-- Mobile Drawer Close Button -->
+        <button 
+          class="mobile-sidebar-close-btn neu-btn" 
+          onclick="window.appState.closeMobileNav()" 
+          title="Close Navigation"
+          aria-label="Close Navigation"
+        >
+          ${createLucideIcon('x', { size: 18 })}
+        </button>
       </div>
 
       <!-- Current Role Mode Badge -->
@@ -65,7 +81,7 @@ export function renderSidebar(state) {
           class="neu-btn" 
           style="padding:5px 9px; font-size:0.72rem; background:transparent; display:inline-flex; align-items:center; gap:4px;" 
           title="Switch Account Role" 
-          onclick="window.appState.navigateTo('auth')"
+          onclick="window.appState.closeMobileNav(); window.appState.navigateTo('auth')"
         >
           ${createLucideIcon('refresh-cw', { size: 12 })}
           <span>${l.switch}</span>
@@ -75,7 +91,7 @@ export function renderSidebar(state) {
       <!-- Navigation List (Strictly role-isolated) -->
       <nav class="sidebar-nav">
         ${navItems.map(item => `
-          <a class="nav-item ${state.currentView === item.id ? 'active' : ''}" data-view="${item.id}">
+          <a class="nav-item ${state.currentView === item.id ? 'active' : ''}" data-view="${item.id}" onclick="window.appState.closeMobileNav(); window.appState.navigateTo('${item.id}');">
             <span class="nav-icon">
               ${createLucideIcon(item.icon, { size: 19, color: state.currentView === item.id ? 'var(--block-mint)' : 'currentColor' })}
             </span>
@@ -87,11 +103,11 @@ export function renderSidebar(state) {
 
       <!-- Privacy Policy & Public Landing Page Links -->
       <div style="margin-top:auto; margin-bottom:12px; display:flex; flex-direction:column; gap:8px;">
-        <button class="neu-btn" style="width:100%; font-size:0.78rem; background:transparent; border:1px solid var(--card-border-subtle); color:var(--text-muted); display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="window.appState.openPrivacyModal()">
+        <button class="neu-btn" style="width:100%; font-size:0.78rem; background:transparent; border:1px solid var(--card-border-subtle); color:var(--text-muted); display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="window.appState.closeMobileNav(); window.appState.openPrivacyModal()">
           ${createLucideIcon('shield-check', { size: 14 })}
           <span>${state.currentLang === 'hi' ? 'डेटा गोपनीयता नीति' : 'Data Privacy Charter'}</span>
         </button>
-        <button class="neu-btn" style="width:100%; font-size:0.8rem; background:var(--input-bg); color:var(--text-secondary); display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="window.appState.goBack()">
+        <button class="neu-btn" style="width:100%; font-size:0.8rem; background:var(--input-bg); color:var(--text-secondary); display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="window.appState.closeMobileNav(); window.appState.goBack()">
           ${createLucideIcon('arrow-left', { size: 15 })} <span>${l.goBack}</span>
         </button>
       </div>
@@ -105,7 +121,7 @@ export function renderSidebar(state) {
           <span class="user-name">${user.name}</span>
           <span class="user-role">${role === 'collector' ? `ID: ${user.id}` : `REG: ${user.cpcbRegistration || user.id}`}</span>
         </div>
-        <button class="sign-out-btn" title="${l.logOut}" onclick="window.appState.logout()">
+        <button class="sign-out-btn" title="${l.logOut}" onclick="window.appState.closeMobileNav(); window.appState.logout()">
           ${createLucideIcon('log-out', { size: 16 })}
         </button>
       </div>

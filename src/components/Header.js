@@ -91,7 +91,18 @@ export function renderHeader(state) {
   return `
     <header class="app-header">
       <div class="header-left">
-        <div style="display:flex; align-items:center; gap:12px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <!-- Mobile Menu Hamburger Button (Hidden on Desktop) -->
+          <button 
+            id="btn-mobile-nav-toggle" 
+            class="mobile-nav-toggle-btn neu-btn" 
+            onclick="window.appState.toggleMobileNav()" 
+            title="Toggle Menu"
+            aria-label="Toggle navigation menu"
+          >
+            ${createLucideIcon(state.isMobileNavOpen ? 'x' : 'menu', { size: 18 })}
+          </button>
+
           <!-- Go Back Button with Return Arrow Symbol -->
           <button 
             id="btn-header-back" 
@@ -101,17 +112,17 @@ export function renderHeader(state) {
             title="${l.goBack}"
           >
             ${createLucideIcon('arrow-left', { size: 15 })}
-            <span style="font-weight:700;">${l.goBack}</span>
+            <span class="header-btn-text" style="font-weight:700;">${l.goBack}</span>
           </button>
 
-          <div>
-            <div style="display:flex; align-items:center; gap:8px;">
+          <div class="header-title-block">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <h1 class="page-title">${currentInfo.title}</h1>
               <span class="badge ${role === 'collector' ? 'badge-mint' : 'badge-amber'}" style="font-size:0.7rem;">
-                ${role === 'collector' ? (isHi ? 'कबाड़ीवाला मोड' : 'Collector Mode') : (isHi ? 'रीसाइक्लर मोड' : 'Recycler Mode')}
+                ${role === 'collector' ? (isHi ? 'कबाड़ीवाला' : 'Collector') : (isHi ? 'रीसाइक्लर' : 'Recycler')}
               </span>
             </div>
-            <p style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">${currentInfo.sub}</p>
+            <p class="header-subtitle" style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">${currentInfo.sub}</p>
           </div>
         </div>
       </div>
@@ -120,7 +131,7 @@ export function renderHeader(state) {
         <!-- Network & Sync Queue Toggle with Functioning Wifi Symbol -->
         <button id="btn-sync-toggle" class="sync-status-btn neu-box-sm ${state.isOnline ? 'online' : 'offline'}" title="Click to toggle Network / Force Offline Sync">
           ${createLucideIcon(state.isOnline ? 'wifi' : 'wifi-off', { size: 14, color: state.isOnline ? 'var(--block-mint)' : 'var(--block-amber)' })}
-          <span style="font-weight:700;">${state.isOnline ? l.online : l.offline}</span>
+          <span class="header-btn-text" style="font-weight:700;">${state.isOnline ? l.online : l.offline}</span>
           ${offlineCount > 0 ? `<span class="badge badge-amber" style="margin-left:4px;">${offlineCount} ${l.pending}</span>` : ''}
         </button>
 
@@ -133,7 +144,7 @@ export function renderHeader(state) {
           title="Open EPR Compliance & Environmental Impact Hub"
         >
           ${createLucideIcon('leaf', { size: 14, color: 'var(--block-mint)' })}
-          <span style="font-weight:700;">${l.eprImpact}</span>
+          <span class="header-btn-text" style="font-weight:700;">${l.eprImpact}</span>
         </button>
 
         <!-- Themed Language Switcher with Symbols -->
@@ -143,14 +154,14 @@ export function renderHeader(state) {
             class="lang-pill-btn ${state.currentLang === 'en' ? 'active' : ''}" 
             onclick="window.appState.setLanguage('en')"
           >
-            🌐 EN
+            🌐 <span class="lang-text">EN</span>
           </button>
           <button 
             type="button" 
             class="lang-pill-btn ${state.currentLang === 'hi' ? 'active' : ''}" 
             onclick="window.appState.setLanguage('hi')"
           >
-            🇮🇳 हिन्दी
+            🇮🇳 <span class="lang-text">हि</span>
           </button>
         </div>
 
@@ -162,7 +173,7 @@ export function renderHeader(state) {
           onclick="window.appState.toggleTheme()"
         >
           <span class="theme-symbol">${state.currentTheme === 'light' ? '🌙' : '☀️'}</span>
-          <span class="theme-text-label">${state.currentTheme === 'light' ? l.darkMode : l.lightMode}</span>
+          <span class="theme-text-label header-btn-text">${state.currentTheme === 'light' ? l.darkMode : l.lightMode}</span>
         </button>
 
         <!-- Log Out Button with Symbol (replaces old Exit button) -->
@@ -174,7 +185,7 @@ export function renderHeader(state) {
           title="${l.logOut}"
         >
           ${createLucideIcon('log-out', { size: 15 })}
-          <span style="font-weight:700;">${l.logOut}</span>
+          <span class="header-btn-text" style="font-weight:700;">${l.logOut}</span>
         </button>
       </div>
     </header>

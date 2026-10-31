@@ -9,7 +9,7 @@ export function renderLandingPageView(state) {
       <!-- Public Landing Navigation Bar -->
       <nav class="landing-navbar glass-panel">
         <div class="landing-nav-container">
-          <div class="landing-brand" onclick="window.appState.navigateTo('landing')" title="${l.appName}">
+          <div class="landing-brand" onclick="window.appState.playSplashAnimation()" style="cursor:pointer;" title="Replay KabadiSetu Launch Animation">
             <div class="brand-icon-box" style="border: 2px solid var(--block-mint);">
               <img src="/logo.png" alt="KABADISETU" class="brand-logo-img" />
             </div>
