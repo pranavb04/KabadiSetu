@@ -12,7 +12,7 @@
 ---
 
 ## 🌐 Live Deployment
-- **Production URL**: *[Coming Soon / Deployment In Progress]*
+- **Production URL**: [https://kabadisetu04.netlify.app](https://kabadisetu04.netlify.app/)
 - **Repository**: [https://github.com/pranavb04/KabadiSetu](https://github.com/pranavb04/KabadiSetu)
 
 ---
@@ -262,3 +262,4 @@ Open **`http://localhost:5173`** in your browser.
 ---
 
 *Built with ❤️ for a cleaner, formalized, and sustainable India.*
+
